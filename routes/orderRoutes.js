@@ -4,13 +4,57 @@ const { placeOrder, getUserOrders, getAllOrders } = require("../controllers/orde
 
 const router = express.Router();
 
-// Place an order (Protected)
+/**
+ * @swagger
+ * /api/orders:
+ *   post:
+ *     summary: Place a new order
+ *     tags: [Orders]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productId:
+ *                 type: string
+ *               quantity:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Order placed successfully
+ */
 router.post("/", authMiddleware, placeOrder);
 
-// Get orders of the logged-in user (Protected)
+/**
+ * @swagger
+ * /api/orders:
+ *   get:
+ *     summary: Get orders of the logged-in user
+ *     tags: [Orders]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user orders
+ */
 router.get("/", authMiddleware, getUserOrders);
 
-// Get all orders (Protected - Admin only)
+/**
+ * @swagger
+ * /api/orders/all:
+ *   get:
+ *     summary: Get all orders (Admin only)
+ *     tags: [Orders]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all orders
+ */
 router.get("/all", authMiddleware, getAllOrders);
 
 module.exports = router;

@@ -4,16 +4,96 @@ const { addProduct, getProducts, updateProduct, deleteProduct } = require("../co
 
 const router = express.Router();
 
-// Get all products (Public)
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Get all products
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: List of all products
+ */
 router.get("/", getProducts);
 
-// Add a new product (Protected - Only Admin)
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Add a new product (Admin only)
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Product created successfully
+ */
 router.post("/", authMiddleware, addProduct);
 
-// Update a product (Protected - Only Admin)
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   put:
+ *     summary: Update a product (Admin only)
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ */
 router.put("/:id", authMiddleware, updateProduct);
 
-// Delete a product (Protected - Only Admin)
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   delete:
+ *     summary: Delete a product (Admin only)
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Product deleted successfully
+ */
 router.delete("/:id", authMiddleware, deleteProduct);
 
 module.exports = router;
